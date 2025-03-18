@@ -41,5 +41,5 @@ end
 
 function Base.show(io::IO, jaxpr::MyTinyJaxpr)
     print(io, "MyTinyJaxpr\n")
-    print(io, join(map(eq -> rpad("  [" * compact_repr_size(size(eq.lhs)) * " " * compact_repr_eltype(eltype(eq.lhs)) * "]", 14) * string(eq), jaxpr.eqns), "\n"))
+    print(io, join(map(eq -> rpad("  [" * compact_repr_eltype(eltype(eq.lhs)) * (size(eq.lhs) != () ? " " * compact_repr_size(size(eq.lhs)) : "") * "]", 14) * string(eq), jaxpr.eqns), "\n"))
 end

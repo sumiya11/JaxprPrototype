@@ -21,11 +21,11 @@ JaxprPrototype.trace(f, 1.0)
 
 #= Output
 MyTinyJaxpr
-  [ f64]      x1   = input 
-  [ f64]      x2   = sin x1
-  [ f64]      x3   = ^ x2, 2
-  [ f64]      x4   = + x3, 1
-  [ f64]      x5   = cos x4
+  [f64]       x1   = input
+  [f64]       x2   = sin x1
+  [f64]       x3   = ^ x2, 2
+  [f64]       x4   = + x3, 1
+  [f64]       x5   = cos x4
 =#
 ```
 
@@ -43,14 +43,14 @@ JaxprPrototype.trace(g, ones(2, 2), ones(2))
 
 #= Output
 MyTinyJaxpr
-  [2x2 f64]   x1   = input 
-  [2 f64]     x2   = input 
-  [2x2 f64]   x3   = ^ x1, 1
-  [2 f64]     x4   = * x3, x2
-  [2x2 f64]   x5   = ^ x1, 2
-  [2 f64]     x6   = * x5, x2
-  [2x2 f64]   x7   = ^ x1, 3
-  [2 f64]     x8   = * x7, x2
+  [f64 2x2]   x1   = input 
+  [f64 2]     x2   = input
+  [f64]       x3   = ^ x1, 1
+  [f64 2]     x4   = * x3, x2
+  [f64]       x5   = ^ x1, 2
+  [f64 2]     x6   = * x5, x2
+  [f64]       x7   = ^ x1, 3
+  [f64 2]     x8   = * x7, x2
 =#
 ```
 
@@ -70,11 +70,11 @@ JaxprPrototype.trace(f, ones(2,2), 1; abstract_arg=[true, false])
 
 #= Output
 MyTinyJaxpr
-  [2x2 f64]   x1   = input 
-  [2x2 f64]   x2   = one x1
-  [2x2 f64]   x3   = * 2, x1
-  [2x2 f64]   x4   = one x3
-  [2x2 f64]   x5   = + x2, x4
+  [f64 2x2]   x1   = input 
+  [f64 2x2]   x2   = one x1
+  [f64 2x2]   x3   = * 2, x1
+  [f64 2x2]   x4   = one x3
+  [f64 2x2]   x5   = + x2, x4
 =#
 ```
 
@@ -95,22 +95,22 @@ end
 JaxprPrototype.trace(my_exp, 2.0)
 #= Ouput
 MyTinyJaxpr
-  [ f64]      x1   = input 
-  [ f64]      x2   = exp x1
+  [f64]       x1   = input
+  [f64]       x2   = exp x1
 =#
 
 JaxprPrototype.trace(my_exp, ones(2, 2))
 #=
 MyTinyJaxpr
-  [2x2 f64]   x1   = input 
-  [2x2 f64]   x2   = one x1
-  [2x2 f64]   x3   = ^ x1, 2
-  [2x2 f64]   x4   = / x3, 2
-  [2x2 f64]   x5   = ^ x1, 3
-  [2x2 f64]   x6   = / x5, 6
-  [2x2 f64]   x7   = + x2, x1
-  [2x2 f64]   x8   = + x7, x4
-  [2x2 f64]   x9   = + x8, x6
+  [f64 2x2]   x1   = input 
+  [f64 2x2]   x2   = one x1
+  [f64 2x2]   x3   = ^ x1, 2
+  [f64 2x2]   x4   = / x3, 2
+  [f64 2x2]   x5   = ^ x1, 3
+  [f64 2x2]   x6   = / x5, 6
+  [f64 2x2]   x7   = + x2, x1
+  [f64 2x2]   x8   = + x7, x4
+  [f64 2x2]   x9   = + x8, x6
 =#
 ```
 
@@ -132,13 +132,13 @@ JaxprPrototype.trace(f, ones(2), ones(2); do_not_trace=[LinearAlgebra.norm])
 
 #= Output
 MyTinyJaxpr
-  [2 f64]     x1   = input 
-  [2 f64]     x2   = input 
-  [2 f64]     x3   = * [1.0 1.0; 1.0 1.0], x1
-  [2 f64]     x4   = + x3, [1.0, 1.0]
-  [2 f64]     x5   = * [1.0 1.0; 1.0 1.0], x4
-  [2 f64]     x6   = + x5, [1.0, 1.0]
-  [2 f64]     x7   = - x6, x2
-  [ f64]      x8   = norm x7
+  [f64 2]     x1   = input 
+  [f64 2]     x2   = input
+  [f64 2]     x3   = * [1.0 1.0; 1.0 1.0], x1
+  [f64 2]     x4   = + x3, [1.0, 1.0]
+  [f64 2]     x5   = * [1.0 1.0; 1.0 1.0], x4
+  [f64 2]     x6   = + x5, [1.0, 1.0]
+  [f64 2]     x7   = - x6, x2
+  [f64]       x8   = norm x7
 =#
 ```
