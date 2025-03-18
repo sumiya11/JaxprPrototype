@@ -52,6 +52,7 @@ function trace(
     args = map(i -> abstract_arg[i] ? Variable(i, args[i]) : args[i], eachindex(args))
     # create barriers for tracer
     for h in do_not_trace
+        # this is not correct usually; here only for demonstration
         g = make_traced_function(h, args[1:1])
         m = parentmodule(h)
         m.eval(g)
