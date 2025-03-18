@@ -1,0 +1,7 @@
+name = "JaxprPrototype"
+uuid = "35cda258-46be-42ce-b576-978f41cd9d79"
+authors = ["sumiya11"]
+version = "0.0.1"
+
+[deps]
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
