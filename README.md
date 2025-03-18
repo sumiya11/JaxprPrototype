@@ -11,6 +11,8 @@ The present prototype implements only 1.
 ### Basic usage
 
 ```julia
+using JaxprPrototype
+
 # Declare a method
 f(x) = cos(sin(x)^2 + 1)
 
