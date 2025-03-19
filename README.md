@@ -43,13 +43,13 @@ JaxprPrototype.trace(g, ones(2, 2), ones(2))
 
 #= Output
 MyTinyJaxpr
-  [f64 2x2]   x1   = input 
+  [f64 2x2]   x1   = input
   [f64 2]     x2   = input
-  [f64]       x3   = ^ x1, 1
+  [f64 2x2]   x3   = ^ x1, 1
   [f64 2]     x4   = * x3, x2
-  [f64]       x5   = ^ x1, 2
+  [f64 2x2]   x5   = ^ x1, 2
   [f64 2]     x6   = * x5, x2
-  [f64]       x7   = ^ x1, 3
+  [f64 2x2]   x7   = ^ x1, 3
   [f64 2]     x8   = * x7, x2
 =#
 ```
