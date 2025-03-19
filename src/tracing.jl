@@ -19,7 +19,7 @@ function make_traced_function(f, args)
         # Record to tape
         lhs = $jaxpr.Variable(length($jaxpr.TAPE[])+1, res)
         rhs = ($(argnames...),)
-        equation = $jaxpr.Equation($f, lhs, collect(rhs))
+        equation = $jaxpr.Equation($f, lhs, collect(rhs), (;))
         push!($jaxpr.TAPE[], equation)
         lhs
     end

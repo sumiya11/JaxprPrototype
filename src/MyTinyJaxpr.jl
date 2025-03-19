@@ -25,11 +25,12 @@ struct Equation
     op
     lhs::Variable
     rhs::Vector{Any}
+    kwargs
 end
 
-input(var::Variable) = Equation(:input, var, [])
+input(var::Variable) = Equation(:input, var, [], (;))
 
-Base.show(io::IO, eq::Equation) = print(io, rpad(eq.lhs, 5), "= ", eq.op, " ", join(map(string, eq.rhs), ", ")...)
+Base.show(io::IO, eq::Equation) = print(io, rpad(eq.lhs, 5), "= ", eq.op, " ", rpad(join(map(string, eq.rhs), ", "), 6), isempty(eq.kwargs) ? "" : eq.kwargs)
 
 # See also: https://github.com/jax-ml/jax/blob/55812c5d02d621c9c1c185298efb51ea562da9d6/jax/_src/core.py#L88
 struct MyTinyJaxpr
@@ -37,6 +38,27 @@ struct MyTinyJaxpr
     outvars::Vector{Variable}
     # Equations are in SSA form
     eqns::Vector{Equation}
+end
+
+function to_expr(jaxpr::MyTinyJaxpr)
+    exprs = Expr[]
+    n_input = length(jaxpr.invars)
+    for eq in jaxpr.eqns[n_input+1:end]
+        lhs = Symbol(string(eq.lhs))
+        rhs = map(x -> x isa Variable ? Symbol(x) : x, eq.rhs)
+        op = eq.op
+        eq_expr = :($lhs = $op(($(rhs...),)...; $(eq.kwargs)...))
+        push!(exprs, eq_expr)
+    end
+    expr = Expr(:block, exprs...)
+    inputs = map(Symbol, jaxpr.invars)
+    expr = :(($(inputs...),) -> $expr)
+    expr
+end
+
+function compile(jaxpr::MyTinyJaxpr)
+    expr = to_expr(jaxpr)
+    eval(expr)
 end
 
 function Base.show(io::IO, jaxpr::MyTinyJaxpr)
